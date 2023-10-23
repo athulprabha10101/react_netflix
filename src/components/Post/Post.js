@@ -30,7 +30,7 @@ function Post(props) {
       if (response.data.results.length!==0){
         setUrlId(response.data.results[0])
       }else{
-        console.log('Array empty');
+        console.log('No data in array');
       }
     }).catch(error=>{
       if (error.response && error.response.status === 404){
