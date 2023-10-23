@@ -12,7 +12,7 @@ function Post(props) {
     height: '390',
     width: '100%',
     playerVars: {
-      autoplay: 0,
+      autoplay: 1,
     },
   };
 
@@ -26,8 +26,18 @@ function Post(props) {
 
   const handleMovie = (id)=>{
     console.log(id);
-    axios.get(`/movie/${id}/videos?api_key=${API_KEY}&anguage=en-US`).then(response=>{
-      console.log(response.data);
+    axios.get(`/movie/${id}/videos?api_key=${API_KEY}&language=en-US`).then(response=>{
+      if (response.data.results.length!==0){
+        setUrlId(response.data.results[0])
+      }else{
+        console.log('Array empty');
+      }
+    }).catch(error=>{
+      if (error.response && error.response.status === 404){
+        console.log("Resource not found");
+      }else{
+        console.log(error.response.status + "error !!");
+      }
     })
   }
 
@@ -41,7 +51,7 @@ function Post(props) {
             
             
         </div>
-        <YouTube videoId="2g811Eo7K8U" opts={opts} />;
+      {urlId && <YouTube videoId={urlId.key} opts={opts} />}
     </div>
   )
 }
